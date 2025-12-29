@@ -24,6 +24,9 @@
 
 #include <linux/uaccess.h>
 #include <asm/unistd.h>
+#if defined(CONFIG_KSU) && defined(CONFIG_KSU_TRACEPOINT_HOOK)
+#include <../drivers/kernelsu/ksu_trace.h>
+#endif
 #if defined(OPLUS_FEATURE_IOMONITOR) && defined(CONFIG_IOMONITOR)
 #include <linux/iomonitor/iomonitor.h>
 #include <linux/iomonitor/iotrace.h>
@@ -612,6 +615,9 @@ ssize_t ksys_read(unsigned int fd, char __user *buf, size_t count)
 
 SYSCALL_DEFINE3(read, unsigned int, fd, char __user *, buf, size_t, count)
 {
+#if defined(CONFIG_KSU) && defined(CONFIG_KSU_TRACEPOINT_HOOK)
+	trace_ksu_trace_sys_read_hook(fd, &buf, &count);
+#endif
 	return ksys_read(fd, buf, count);
 }
 
