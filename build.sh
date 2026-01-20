@@ -1,5 +1,4 @@
 #!/bin/bash
-source ~/.bashrc && source ~/.profile
 export LC_ALL=C && export USE_CCACHE=1
 ccache -M 100G >/dev/null
 export ARCH=arm64
